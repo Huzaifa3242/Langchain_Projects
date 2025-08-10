@@ -1,0 +1,9 @@
+langchain
+langchain-groq
+streamlit
+langchain_community
+ipykernel
+pymupdf
+pypdf
+apify-client==1.6.1
+prettytable
