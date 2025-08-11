@@ -6,6 +6,26 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 
 load_dotenv()
+st.markdown(
+    """
+    <style>
+    .job-title {
+        font-size: 26px;
+        font-weight: bold;
+        color: #11111; /* Purple for title */
+        margin-bottom: 2px;
+    }
+    .company-name {
+        font-size: 20px;
+        font-style: italic;
+        color: #11111; /* Subtle gray for company */
+        margin-bottom: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 st.set_page_config(page_title="AI Job Recommender")
 st.title("📑 AI Job Recommender")
@@ -56,12 +76,16 @@ if st.session_state.job_recommendations:
     st.markdown("---")
     st.header("💼 Top LinkedIn Jobs")
 
-    if st.session_state.job_recommendations:
-        for job in st.session_state.job_recommendations:
-            st.markdown(f"**{job.get('title')}** at *{job.get('companyName')}*")
-            st.markdown(f"- 📍 {job.get('location')}")
-            st.markdown(f"- 🔗 [View Job]({job.get('jobUrl')})")
-            st.markdown(f"- Posted {job.get('postedTime')}")
-            st.markdown("---")
+if st.session_state.job_recommendations:
+    for job in st.session_state.job_recommendations:
+        st.markdown(f"<div class='job-title'>{job.get('title')}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='company-name'>{job.get('companyName')}</div>", unsafe_allow_html=True)
+        st.markdown(f"- 📍 {job.get('location')}")
+        st.markdown(f"- 🔗 [View Job]({job.get('jobUrl')})")
+        st.markdown(f"- Posted {job.get('postedTime')}")
+        with st.expander("See Job Description"):
+            st.markdown(job.get('description'))
+        st.markdown("---")
+
     else:
         st.warning("No LinkedIn jobs found.")
